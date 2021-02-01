@@ -68,6 +68,25 @@ function! UltiSnipsQuery()
 endfunc
 
 
+function! UltiSnipsQuery2()
+	call s:init_python()
+	if g:Lf_PythonVersion == 2
+		let matches = pyeval('leaderf_snippet.usnip_query()')
+	else
+		let matches = py3eval('leaderf_snippet.usnip_query()')
+	endif
+	let width = 100
+	for item in matches
+		let desc = item[1]
+		if desc == ''
+			" let desc = SnipMateDescription(item[3], width)
+			" let item[1] = desc
+		endif
+	endfor
+	return matches
+endfunc
+
+
 "----------------------------------------------------------------------
 " internal 
 "----------------------------------------------------------------------
@@ -76,16 +95,49 @@ let s:filetype = ''
 let s:accept = ''
 let s:snips = {}
 let s:is_snipmate = 0
+let s:inited = 0
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
+function! s:init_python()
+	if s:inited != 0
+		return 0
+	endif
+	if exists(':UltiSnipsEdit') == 2
+		let s:is_snipmate = 0
+		call UltiSnips#SnippetsInCurrentScope(1)
+	else
+		let s:is_snipmate = 1
+		return 0
+	endif
+	exec g:Lf_py 'import sys, vim'
+	exec g:Lf_py '_pp = vim.eval("s:home")'
+	exec g:Lf_py 'if _pp not in sys.path: sys.path.append(_pp)'
+	exec g:Lf_py 'import leaderf_snippet'
+	if g:Lf_PythonVersion == 2
+		exec 'py2' 'import imp'
+		exec 'py3' 'imp.reload(leaderf_snippet)'
+	else
+		exec 'py3' 'import importlib'
+		exec 'py3' 'importlib.reload(leaderf_snippet)'
+	endif
+	exec g:Lf_py 'leaderf_snippet.init()'
+	let s:inited = 1
+	return 1
+endfunc
 
 function! s:lf_snippet_source(...)
-	let source = []
 	let s:is_snipmate = (exists(':UltiSnipsEdit') != 2)
+	let source = []
+	if s:inited == 0
+		call s:init_python()
+		let s:inited = 1
+	endif
 	if s:is_snipmate
 		let matches = SnipMateQuery('', 0)
 	else
-		let matches = UltiSnipsQuery()
+		" let matches = UltiSnipsQuery()
+		let matches = UltiSnipsQuery2()
 	endif
 	let snips = {}
 	let width = 100
@@ -96,11 +148,12 @@ function! s:lf_snippet_source(...)
 		endif
 		if s:is_snipmate
 			let desc = SnipMateDescription(item[1], width)
+			let snips[trigger] = item[1]
 		else
 			let desc = item[1]
+			let snips[trigger] = item[3]
 		endif
 		let text = item[2] . ' ' . ' : ' . desc
-		let snips[trigger] = item[1]
 		let source += [text]
 	endfor
 	let s:snips = snips
