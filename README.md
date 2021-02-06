@@ -25,7 +25,7 @@ Plug 'Yggdroot/LeaderF'
 Plug 'skywind3000/Leaderf-snippet'
 ```
 
-One of [UltiSnips](https://github.com/SirVer/ultisnips) (recommended) or [SnipMate](https://github.com/garbas/vim-snipmate) is required.
+A supported snippet engine, [UltiSnips](https://github.com/SirVer/ultisnips) (recommended) or [SnipMate](https://github.com/garbas/vim-snipmate), is required.
 
 
 ## Configuration
