@@ -6,11 +6,6 @@ This plugin takes the advantage of the well-known fuzzy finder [Leaderf](https:/
 
 Snippet names are hard to remember, therefore, I made a Leaderf extension to help input snippets.
 
-![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
-
-Browse my snippets with full of details. No worry about forgetting snippets.
-
-
 ## Feature
 
 - Read snippets from SnipMate or UltiSnips
@@ -50,6 +45,7 @@ Compare to fzf, Leaderf has a NORMAL mode which allows me browser my snippets mo
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
 
+Browse my snippets with full of details. No worry about forgetting snippets.
 
 ## TODO
 
