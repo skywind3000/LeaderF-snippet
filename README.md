@@ -1,6 +1,6 @@
 # Leaderf-snippet
 
-This plugin takes the advantage of the well-known fuzzy finder [Leaderf](https://github.com/Yggdroot/LeaderF) to provide a new way to input snippets:
+This plugin takes the advantage of the well-known fuzzy finder [Leaderf](https://github.com/Yggdroot/LeaderF) to provide an intuitive way to input snippets:
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet1.gif)
 
