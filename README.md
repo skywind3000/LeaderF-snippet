@@ -6,11 +6,17 @@ This plugin takes the advantage of the well-known fuzzy finder [Leaderf](https:/
 
 Snippet names are hard to remember, therefore, I made a Leaderf extension to help input snippets.
 
+![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
+
+Browse my snippets with full of details. No worry about forgetting snippets.
+
+
 ## Feature
 
 - Read snippets from SnipMate or UltiSnips
 - Display snippet descriptions in the fuzzy finder.
 - Work in both INSERT mode and NORMAL mode.
+
 ## Installation
 
 ```VimL
@@ -33,9 +39,14 @@ let g:Lf_PreviewResult.snippet = 1
 
 ## Why Leaderf ?
 
-Because it has a NORMAL mode which allows you browser the content like a normal vim window:
+vim-fzf has a `Snippets` command, but it doesn't provide enough information for each snippet and it can't work correctly in INSERT mode:
+
+![](https://github.com/skywind3000/images/raw/master/p/snippet/fzf-snippets.png)
+
+Compare to fzf, Leaderf has a NORMAL mode which allows me browser my snippets more easily like in a normal vim window:
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
+
 
 ## TODO
 
