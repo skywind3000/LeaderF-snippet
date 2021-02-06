@@ -52,5 +52,9 @@ Browse my snippets with full of details. No worry about forgetting snippets.
 - [x] snipmate
 - [x] ultisnips
 - [x] snipmate preview
-- [ ] ultisnips preview
+- [x] ultisnips preview
+- [ ] minisnip 
 
+## Credit
+
+- [Leaderf](https://github.com/Yggdroot/LeaderF): An efficient fuzzy finder that helps to locate files, buffers, mrus, gtags, etc. on the fly
