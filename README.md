@@ -31,9 +31,9 @@ let g:Lf_PreviewResult.snippet = 1
 
 ```
 
-## Demo
+## Why Leaderf ?
 
-Choose your snippet in Leaderf's normal mode:
+Because it has a NORMAL mode which allows you browser the content like a normal vim window:
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
 
