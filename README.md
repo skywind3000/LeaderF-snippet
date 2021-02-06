@@ -31,6 +31,12 @@ let g:Lf_PreviewResult.snippet = 1
 
 ```
 
+## Demo
+
+Choose your snippet in Leaderf's normal mode:
+
+![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
+
 ## TODO
 
 - [x] snipmate
