@@ -27,7 +27,7 @@ A supported snippet engine, [UltiSnips](https://github.com/SirVer/ultisnips) (re
 
 ```VimL
 " maps
-inoremap <c-x><c-j> <c-\><c-o>:Leaderf snippet<cr>
+inoremap <c-x><c-x> <c-\><c-o>:Leaderf snippet<cr>
 
 " optional: preview
 let g:Lf_PreviewResult = get(g:, 'Lf_PreviewResult', {})
@@ -41,7 +41,7 @@ vim-fzf has a `Snippets` command, but it doesn't provide enough information for 
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/fzf-snippets.png)
 
-Compare to fzf, Leaderf has a NORMAL mode which allows me browser my snippets more easily like in a normal vim window:
+Compare to fzf, Leaderf has a NORMAL mode which allows me to browse my snippets more easily like in a normal vim window:
 
 ![](https://github.com/skywind3000/images/raw/master/p/snippet/snippet2.gif)
 
