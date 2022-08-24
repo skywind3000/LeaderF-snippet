@@ -22,7 +22,7 @@ def init():
 
 def usnip_query():
     source = []
-    vim.eval('UltiSnips#SnippetsInCurrentScope()')
+    vim.eval('UltiSnips#SnippetsInCurrentScope(1)')
     items = vim.eval('items(g:current_ulti_dict_info)')
     from UltiSnips import UltiSnips_Manager
     import UltiSnips
