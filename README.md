@@ -8,7 +8,7 @@ Snippet names are hard to remember, therefore, I made a Leaderf extension to hel
 
 ## Feature
 
-- Read snippets from SnipMate or UltiSnips
+- Read snippets from SnipMate, UltiSnips, or NeoSnippet.
 - Display snippet descriptions in the fuzzy finder.
 - Work in both INSERT mode and NORMAL mode.
 
@@ -20,7 +20,7 @@ Plug 'Yggdroot/LeaderF'
 Plug 'skywind3000/Leaderf-snippet'
 ```
 
-A supported snippet engine, [UltiSnips](https://github.com/SirVer/ultisnips) (recommended) or [SnipMate](https://github.com/garbas/vim-snipmate), is required.
+A supported snippet engine, [UltiSnips](https://github.com/SirVer/ultisnips) (recommended), [SnipMate](https://github.com/garbas/vim-snipmate), or [NeoSnippet](https://github.com/Shougo/neosnippet.vim) is required.
 
 
 ## Configuration
@@ -51,8 +51,10 @@ Browse my snippets with full of details. No worry about forgetting snippets.
 
 - [x] snipmate
 - [x] ultisnips
+- [x] neosnippet
 - [x] snipmate preview
 - [x] ultisnips preview
+- [x] neosnippet preview
 - [ ] minisnip 
 
 ## Credit

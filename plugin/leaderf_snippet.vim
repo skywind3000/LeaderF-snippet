@@ -3,7 +3,7 @@
 " leaderf_snippet.vim - 
 "
 " Created by skywind on 2021/02/01
-" Last Modified: 2021/02/13 21:07:12
+" Last Modified: 2023/08/10 23:36
 "
 "======================================================================
 
@@ -98,6 +98,28 @@ endfunc
 
 
 "----------------------------------------------------------------------
+" NeoSnippet
+"----------------------------------------------------------------------
+function! NeoSnippetQuery()
+	let result = neosnippet#helpers#get_completion_snippets()
+	let list = []
+	let size = 4
+	for item in result
+		let trigger = item.word
+		let desc = item.info
+		let size = max([size, len(trigger)])
+		let list += [[trigger, desc]]
+	endfor
+	for item in list
+		let t = item[0] . repeat(' ', size - len(item[0]))
+		call extend(item, [t])
+	endfor
+	call sort(list)
+	return list
+endfunc
+
+
+"----------------------------------------------------------------------
 " checks
 "----------------------------------------------------------------------
 
@@ -107,6 +129,10 @@ endfunc
 
 function! s:check_ultisnips()
 	return (exists(':UltiSnipsEdit') == 2)
+endfunc
+
+function! s:check_neosnippet()
+	return (exists(':NeoSnippetEdit') == 2)
 endfunc
 
 
@@ -133,6 +159,10 @@ function! s:init_python()
 	elseif s:check_ultisnips()
 		let s:snip_engine = 1
 		call UltiSnips#SnippetsInCurrentScope(1)
+	elseif s:check_neosnippet()
+		let s:snip_engine = 2
+		let s:inited = 1
+		return 0
 	else
 		let s:snip_engine = -1
 		let s:inited = 1
@@ -165,6 +195,8 @@ function! s:lf_snippet_source(...)
 	elseif s:snip_engine == 1
 		" let matches = UltiSnipsQuery()
 		let matches = UltiSnipsQuery2()
+	elseif s:snip_engine == 2
+		let matches = NeoSnippetQuery()
 	else
 		let error = "ERROR: Require UltiSnip (recommended) or SnipMate !!"
 		redraw
@@ -186,9 +218,13 @@ function! s:lf_snippet_source(...)
 		if s:snip_engine == 0
 			let desc = SnipMateDescription(item[1], width)
 			let snips[trigger] = item[1]
-		else
+		elseif s:snip_engine == 1
 			let desc = item[1]
 			let snips[trigger] = item[3]
+		elseif s:snip_engine == 2
+			" let desc = item[1]
+			let desc = SnipMateDescription(item[1], width)
+			let snips[trigger] = item[1]
 		endif
 		let text = item[2] . ' ' . ' : ' . desc
 		let source += [text]
@@ -224,6 +260,12 @@ function! s:lf_snippet_accept(line, arg)
 				" unsilent echom "col: ". col('.')
 			else
 				call feedkeys('a' . name . "\<c-r>=UltiSnips#ExpandSnippet()\<cr>", '!')
+			endif
+		elseif s:snip_engine == 2
+			if mode(1) =~ 'i'
+				call feedkeys(name . "\<c-r>=neosnippet#mappings#expand_impl()\<cr>", '!')
+			else
+				call feedkeys('a' . name . "\<c-r>=neosnippet#mappings#expand_impl()\<cr>", '!')
 			endif
 		endif
 	endif
@@ -277,6 +319,5 @@ let g:Lf_Extensions.snippet = {
 			\ },
 			\ 'after_enter': string(function('s:lf_win_init'))[10:-3],
 		\ }
-
 
 
