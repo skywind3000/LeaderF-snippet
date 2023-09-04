@@ -120,6 +120,33 @@ endfunc
 
 
 "----------------------------------------------------------------------
+" query from LuaSnip
+"----------------------------------------------------------------------
+function! LuaSnipQuery()
+	if !has('nvim')
+		return []
+	endif
+	lua vim.leaderf_snippet = require('leaderf.snippet')
+	lua vim.__temp1 = vim.leaderf_snippet.query(vim.o.filetype)
+	let hr = luaeval('vim.__temp1')
+	let list = []
+	let size = 4
+	for item in hr
+		let trigger = item[1]
+		let body = item[2]
+		let size = max([size, len(trigger)])
+		call add(list, [trigger, body])
+	endfor
+	for item in list
+		let t = item[0] . repeat(' ', size - len(item[0]))
+		call extend(item, [t])
+	endfor
+	call sort(list)
+	return list
+endfunc
+
+
+"----------------------------------------------------------------------
 " checks
 "----------------------------------------------------------------------
 
@@ -133,6 +160,10 @@ endfunc
 
 function! s:check_neosnippet()
 	return (exists(':NeoSnippetEdit') == 2)
+endfunc
+
+function! s:check_luasnip()
+	return (has('nvim') && exists('*luasnip#expandable') == 1)
 endfunc
 
 
@@ -161,6 +192,10 @@ function! s:init_python()
 		call UltiSnips#SnippetsInCurrentScope(1)
 	elseif s:check_neosnippet()
 		let s:snip_engine = 2
+		let s:inited = 1
+		return 0
+	elseif s:check_luasnip()
+		let s:snip_engine = 3
 		let s:inited = 1
 		return 0
 	else
@@ -197,6 +232,8 @@ function! s:lf_snippet_source(...)
 		let matches = UltiSnipsQuery2()
 	elseif s:snip_engine == 2
 		let matches = NeoSnippetQuery()
+	elseif s:snip_engine == 3
+		let matches = LuaSnipQuery()
 	else
 		let error = "ERROR: Require UltiSnip (recommended) or SnipMate !!"
 		redraw
@@ -223,6 +260,9 @@ function! s:lf_snippet_source(...)
 			let snips[trigger] = item[3]
 		elseif s:snip_engine == 2
 			" let desc = item[1]
+			let desc = SnipMateDescription(item[1], width)
+			let snips[trigger] = item[1]
+		elseif s:snip_engine == 3
 			let desc = SnipMateDescription(item[1], width)
 			let snips[trigger] = item[1]
 		endif
@@ -267,11 +307,20 @@ function! s:lf_snippet_accept(line, arg)
 			else
 				call feedkeys('a' . name . "\<c-r>=neosnippet#mappings#expand_impl()\<cr>", '!')
 			endif
+		elseif s:snip_engine == 3
+			if mode(1) =~ 'i'
+				call feedkeys(name . "\<plug>luasnip-expand-or-jump", '!')
+			else
+				call feedkeys('a' . name . "\<Plug>luasnip-expand-or-jump", '!')
+			endif
 		endif
 	endif
 endfunc
 
 
+"----------------------------------------------------------------------
+" preview snippet
+"----------------------------------------------------------------------
 function! s:lf_snippet_preview(orig_buf_nr, orig_cursor, line, args)
 	let text = a:line
 	let pos = stridx(text, ':')
